@@ -30,3 +30,14 @@ test('orderTotal applies the loyalty discount before tax', () => {
   assert.equal(orderTotal(order, gold), 101.7);
   assert.equal(orderTotal(order, silver), 107.35);
 });
+
+test('loyaltyDiscount returns 0 for a customer who never enrolled (no loyalty field)', () => {
+  const notEnrolled = { id: 'c_104', name: 'Riley Okafor' };
+  assert.equal(loyaltyDiscount(notEnrolled), 0);
+});
+
+test('orderTotal prices an order for a customer with no loyalty field', () => {
+  const notEnrolled = { id: 'c_104', name: 'Riley Okafor' };
+  const order = { items: [{ unitPrice: 24.5, quantity: 1 }] };
+  assert.equal(orderTotal(order, notEnrolled), 27.69);
+});
